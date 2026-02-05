@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class Inventory : MonoBehaviour
 
     //Aquí se guardan todos los objetos que tengaoms y su cantidad.
     public Dictionary<string, uint> items = new Dictionary<string, uint>();
+
+    public UnityEvent<ItemInfo> onAddItem;
+    public UnityAction<ItemInfo> onAddedItem;
+
+
 
     //Crear una instancia pbulica para este script
     public static Inventory Instance;

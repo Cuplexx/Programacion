@@ -16,3 +16,4 @@ MonoBehaviour:
   Stackable: 1
   description: Fumate esta
   isDiscardable: 0
+  Icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}

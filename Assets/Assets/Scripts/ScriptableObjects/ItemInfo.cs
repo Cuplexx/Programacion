@@ -9,5 +9,6 @@ public class ItemInfo : ScriptableObject
     public bool Stackable;
     public string description;
     public bool isDiscardable;
+    public Sprite Icon; //El icono que se ve dentro del inventario.
 
 }
