@@ -7,9 +7,14 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private Image itemPrefab;
     [SerializeField] private Transform itemLayout; //Todos los objetos se emparentan aquí
 
+    public ItemInfo itemInfo;
+
     void Start()
     {
-        
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            CreateItem(itemInfo);
+        }
     }
 
     public void CreateItem(ItemInfo itemInfo)
