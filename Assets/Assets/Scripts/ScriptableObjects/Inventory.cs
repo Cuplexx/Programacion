@@ -10,10 +10,9 @@ public class Inventory : MonoBehaviour
     //Aquí se guardan todos los objetos que tengaoms y su cantidad.
     public Dictionary<string, uint> items = new Dictionary<string, uint>();
 
-    public UnityEvent<ItemInfo> onAddItem;
+    //Callback que se ejecuta cuando se añada el objeto
+    //Pasa como parametro la info del objeto añadido
     public UnityAction<ItemInfo> onAddedItem;
-
-
 
     //Crear una instancia pbulica para este script
     public static Inventory Instance;
@@ -50,11 +49,11 @@ public class Inventory : MonoBehaviour
         else
         {
             //Si el objeto se puede stackear, tiene que añadir 1 a la cantidad que tengamos.
-            if(ItemInfo.Stackable == true)
+            if(item.Stackable == true)
             {
                 //Accedemos al valor a través del nombre del objetos
                 //Como el nombre es la Key, se usa para acceder a cada objeto por separado
-                items[ItemInfo.Name] += 1;
+                items[item.Name] += 1;
             }
             //Si el objeto NO se puede stackear, lo añade de nuevo al diccionario.
             else
@@ -62,5 +61,8 @@ public class Inventory : MonoBehaviour
                 items.Add(ItemInfo.Name, 1);
             }
         }
+        //Ejecutar el callback que se ha añadido un objeto, pasando su infomacion
+        //El operador ? comprueba que haya algo en el callback para ejecutarlo.
+        onAddedItem?.Invoke(item);
     }
 }
