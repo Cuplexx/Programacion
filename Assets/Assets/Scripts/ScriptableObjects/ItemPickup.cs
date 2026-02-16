@@ -7,7 +7,7 @@ public class ItemPickup : MonoBehaviour
     public ItemInfo itemInfo;
     private void Start()
     {
-        Inventory.Instance.AddItem(itemInfo);
+        //Inventory.Instance.AddItem(itemInfo);
     }
     private void OnTriggerEnter(Collider other)
     {
