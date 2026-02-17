@@ -16,6 +16,8 @@ public class InventoryUI : MonoBehaviour
         //añadir la funcion CreateItem al callbacl del inventario cuando se añade un objeto
         //importante que la funcion reciba un ItemIndo como parametro o llora muy fuerte
         Inventory.Instance.onAddedItem += CreateItem;
+        //Añadir la funcion DeleteItem al callback del inventario cuando se usa un objeto
+        Inventory.Instance.onRemovedItem += DeleteItem;
     }
 
     public void CreateItem(ItemInfo itemInfo, uint amount)
@@ -64,6 +66,23 @@ public class InventoryUI : MonoBehaviour
         }
         //Si no encuentra objeto que coincida, devuelve NULL
         return null;
+    }
+
+    void DeleteItem(ItemInfo item, uint amount)
+    {
+        //Buscamos el objeto que gastar o eliminar
+        ItemUI itemToDelete = FindItem(item);
+        //Si queda al menos un objeto, se actualiza la cantidad
+        if(amount > 0)
+        {
+            itemToDelete.UpdateAmount(amount);
+        }
+        //Si hay 0 de cantidad, el objeto se ha gastado y hay que borrarlo
+        else
+        {
+            items.Remove(itemToDelete);
+            Destroy(itemToDelete.gameObject);
+        }
     }
 
 }

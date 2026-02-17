@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemPickup : MonoBehaviour
 {
     public ItemInfo itemInfo;
+    
     private void Start()
     {
         //Inventory.Instance.AddItem(itemInfo);
