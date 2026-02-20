@@ -12,7 +12,9 @@ public class ItemInfo : ScriptableObject
     public Sprite Icon; //El icono que se ve dentro del inventario.+
     public ItemType type; //Tipo de obejto que es
 
-    public void Use()
+    //Para que todos los obejtos tengan una funcion por defecto de
+    //usar usamos la palabra clave VIRTUAL para que se pueda sobreescribir esta funcion desde las calses que heredan
+    public virtual void Use()
     {
         if(type == ItemType.Consumible)
         {
