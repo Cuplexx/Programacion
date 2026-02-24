@@ -33,6 +33,9 @@ public class ThirdPersonController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         //Buscamos la camara entre los objetos hijo y la asignamos
         cam = GetComponentInChildren<Camera>();
+
+        //Añadir la funcion de consumible al callback
+        ConsumableSystem.onConsumibleUsed += ConsumibleUsed;
     }
 
     void Update()
@@ -93,6 +96,29 @@ public class ThirdPersonController : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    //MODIFICACION PARA USAR LOS CONSUMIBLES
+    void ConsumibleUsed(ItemInfo consumible)
+    {
+        //Hay que transformar el ItemInfo a Consumible
+        Consumible cons = consumible as Consumible;
+
+        //Solo cambia la velocidad de movimiento si es un buff
+        if(cons.MoveSpeedAmount != 0)
+        {
+            StartCoroutine(MoveSpeedChanteCrtf(cons.MoveSpeedAmount, cons.Duration));
+        }
+    }
+
+    IEnumerator MoveSpeedChanteCrtf(float moveSpeedChange, float duration)
+    {
+        //Modificar la velocidad
+        moveSpeed += moveSpeedChange;
+        //Esperar la duracion del consumible
+        yield return new WaitForSeconds(duration);
+        //restaurar la velocidad
+        moveSpeed -= moveSpeedChange;
     }
 
     private void OnDrawGizmos()

@@ -15,8 +15,10 @@ public class ConsumableSystem : MonoBehaviour
         //Comprobar si se ha pulsado la tecla de alguno de los slots
         for(int i = 0; i < slots.Count; i++)
         {
-            if(Input.GetKeyDown(slots[i].key))
+            //Tambien comprueba si se tiene ese objeto en el inventario
+            if(Input.GetKeyDown(slots[i].key) && Inventory.Instance.HasItem(slots[i].consumible))
             {
+                //Se usa lo que haya asignado a ese slot
                 slots[i].Use();
                 onConsumibleUsed?.Invoke(slots[i].consumible);
             }

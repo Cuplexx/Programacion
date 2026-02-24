@@ -102,4 +102,9 @@ public class Inventory : MonoBehaviour
             items.Remove(item.Name);
         }
     }
+
+    public bool HasItem(ItemInfo itemToFind)
+    {
+        return items.ContainsKey(itemToFind.Name);
+    }
 }
