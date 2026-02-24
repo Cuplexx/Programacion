@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d984d7da50c39443bdb0ff4b2f0ea74, type: 3}
   m_Name: Chuche
   m_EditorClassIdentifier: 
-  Name: 
-  Stackable: 0
-  description: 
-  isDiscardable: 0
-  Icon: {fileID: 0}
+  Name: Xuxe
+  Stackable: 1
+  description: ta wena
+  isDiscardable: 1
+  Icon: {fileID: 21300000, guid: 8f82d1b9bfb16be4fa982ba3f5ee8dd5, type: 3}
   type: 0
   HealthAmount: 0
   MoveSpeedAmount: 0
