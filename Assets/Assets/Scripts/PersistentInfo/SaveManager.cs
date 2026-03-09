@@ -6,6 +6,7 @@ using System.IO;
 using UnityEngine.Events;
 
 //Si se va a guardar con Json, hay que marcar la estructura como serializable
+//Usamos una class para poder modificar su valor desde distintos scripts y que se guarde
 [System.Serializable]
 public struct SaveData
 {   
@@ -16,16 +17,17 @@ public struct SaveData
 public class SaveManager
 {
     static string fileName = "ReadMe.younaiti";
+    static SaveData saveData = new SaveData();
 
     //Callback que se llama cuando carga la informacion
     public static UnityAction<SaveData> OnLoadedData;
+    //Callback para guardar la informacion
+    public static UnityAction<SaveData> OnSaveData;
 
-    public static void Save(List<uint> openChests)
+    public static void Save()
     {
-        //Crear unos datos de guardado nuevos
-        SaveData saveData = new SaveData();
-        //Asignar a los datos de guardado la lista de cofres abiertos (nueva lista con los mismos valores)
-        saveData.openChestsIDs = new List<uint>(openChests);
+        //Callback para que todos los objetos guarden su informacion en el SaveData
+        OnSaveData?.Invoke(saveData);
         //Transformar el SaveData en una string con formato Json
         string dataJson = JsonUtility.ToJson(saveData);
         //Generar la ruta del archivo con persistentDataPath y el nombre que queramos
@@ -35,6 +37,10 @@ public class SaveManager
         //Crear el archivo de guardado en una ruta con un nombre y los datos Json
         File.WriteAllText(filePath, dataJson);
     }
+
+    //Esto es para que Unity llame a esta funcion cuando se inicie la escena, como si fuera un start
+    //Por defecto, se llama después de awake
+    [RuntimeInitializeOnLoadMethod]
 
     public static void Load()
     {

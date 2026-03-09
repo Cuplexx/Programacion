@@ -15,6 +15,14 @@ public class PersistentInfo : MonoBehaviour
         {
             Singleton = this;
             DontDestroyOnLoad(this.gameObject);
+            //Añadir una funcion al callback de datos cargados
+            //Este codigo tan feo es una funcion anonima. Es como una funcion normal pero se crea en el momento de añadirla al callback
+            //Entre los parentesis hay que añadir un SaveData porque el callback lo usa como parametro.
+            SaveManager.OnLoadedData += (SaveData saveData) =>
+            {
+                openChests = new List<uint>(saveData.openChestsIDs);
+            };
+
         }
         //Si al iniciar ya hay un Singleton, este objeto debe destruirse para que no haya duplicados
         else
@@ -25,16 +33,8 @@ public class PersistentInfo : MonoBehaviour
 
     private void Start()
     {
-
-        //Añadir una funcion al callback de datos cargados
-        //Este codigo tan feo es una funcion anonima. Es como una funcion normal pero se crea en el momento de añadirla al callback
-        //Entre los parentesis hay que añadir un SaveData porque el callback lo usa como parametro.
-        SaveManager.OnLoadedData += (SaveData saveData) =>
-        {
-            openChests = new List<uint>(saveData.openChestsIDs);
-        };
-        //Llamar a la funcion de cargar datos
-        SaveManager.Load();
+        //Añadir la funcion OnSaveData
+        SaveManager.OnSaveData += Save;
     }
 
     private void Update()
@@ -52,12 +52,20 @@ public class PersistentInfo : MonoBehaviour
         {
             openChests.Add(chestID);
             //Guardar los cofres
-            SaveManager.Save(openChests);
+            SaveManager.Save();
         }
+    }
+
+    //Se añade al callback de guardar info
+    void Save(SaveData saveData)
+    {
+        //Actualizamos los datos de guardado con la lista de cofres abiertos
+        saveData.openChestsIDs = new List<uint>(openChests);
     }
 
     public bool IsChestOpen(uint chestID)
     {
+        //Devuelve true o false en funcion de si el cofre está en la lista de abiertos
         return openChests.Contains(chestID);
     }
 }
