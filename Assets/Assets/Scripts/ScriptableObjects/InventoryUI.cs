@@ -85,4 +85,30 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            EnbaleDisableIventory();
+        }
+    }
+
+    void EnbaleDisableIventory()
+    {
+        //Si el inventario NO está activado
+        if(itemLayout.gameObject.activeSelf == false)
+        {
+            //Asegurarnos de que su escala sea 0
+            itemLayout.localScale = Vector3.zero;
+            itemLayout.gameObject.SetActive(true);
+            //Tween para animacion de escala
+            itemLayout.LeanScale(Vector3.one, 0.5f).setEaseOutBack();
+        }
+        //Si el inventario está activado
+        else
+        {
+            itemLayout.LeanScale(Vector3.zero, 0.5f).setEaseInBack().setOnComplete(()=> itemLayout.gameObject.SetActive(false));
+            
+        }
+    }
 }
