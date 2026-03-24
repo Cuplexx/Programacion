@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b43ee51eaec5cbb41902c218f5ae6701, type: 3}
+  m_Name: Player - NPC Start Area
+  m_EditorClassIdentifier: 
+  character1:
+    name: Skibidi
+    icon: {fileID: 21300000, guid: 8f82d1b9bfb16be4fa982ba3f5ee8dd5, type: 3}
+  character2:
+    name: Toilet
+    icon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  lines:
+  - text: Me pica el poto
+    whoSaysThis: 0
+  - text: "A mi m\xE1s"
+    whoSaysThis: 1
+  - text: "C\xE1llate"
+    whoSaysThis: 0
+  - text: SIX SEVEN
+    whoSaysThis: 1
+  - text: SIX SEVEEEEEN
+    whoSaysThis: 0
