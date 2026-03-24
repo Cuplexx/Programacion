@@ -33,5 +33,14 @@ public class DialogueManager : MonoBehaviour
     {
         //Actualizar el texto de la linea de dialogo
         dialogueLineTxt.text = currenDialogue.lines[currentlLine].text;
+        //Actualizar el icono con el personaje que diga esta linea y con su nombre
+        characterIcon.sprite = currenDialogue.GetCharacter(currentlLine).icon;
+        characterNameTxt.text = currenDialogue.GetCharacter(currentlLine).name;
+    }
+
+    public void NextLine()
+    {
+        currentlLine++;
+        ShowDialogueLine();
     }
 }

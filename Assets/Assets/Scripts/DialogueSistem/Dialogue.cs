@@ -14,6 +14,11 @@ public class Dialogue : ScriptableObject
     {
         return lines[index].text;
     }
+
+    public Character GetCharacter(int index)
+    {
+        return lines[index].whoSaysThis == DialogueCharacterType.Character1 ? character2 : character2;
+    }
 }
 
 [System.Serializable]
