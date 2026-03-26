@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName ="ScriptableObjects/Dialogue")]
+[CreateAssetMenu(menuName = "ScriptableObjects/Dialogue")]
 public class Dialogue : ScriptableObject
 {
     //Los dos personajes dialogantes. No tienen por que estar asignados ambos, puede ser uno solo
@@ -15,9 +15,10 @@ public class Dialogue : ScriptableObject
         return lines[index].text;
     }
 
+    //devuelve el personaje que este diciendo una linea en concreto
     public Character GetCharacter(int index)
     {
-        return lines[index].whoSaysThis == DialogueCharacterType.Character1 ? character2 : character2;
+        return lines[index].whoSaysThis == DialogueCharacterType.Character1 ? character1 : character2;
     }
 }
 
