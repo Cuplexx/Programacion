@@ -14,15 +14,39 @@ public class PlayerController : MonoBehaviour
     float xRotation = 0f;
     Vector3 velocity;
 
+    private bool canControl = true;
+    private Vector3 input;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        ConsumableSystem.onConsumibleUsed += ConsumibleUsed;
+
+        //Añadir las funciones locales a los calbacks del DialogueManager
+        DialogueManager.singleton.onDialogueStart += DisableControl;
+        DialogueManager.singleton.onDialogueEnd+= EnableControl;
+
+        void EnableControl(Dialogue d)
+        {
+            canControl = true;
+        }
+
+        void DisableControl(Dialogue d)
+        {
+            canControl = false;
+        }
     }
 
     void Update()
     {
         Move();
         Look();
+
+        if(canControl == false)
+        {
+            input = Vector3.zero;
+            return;
+        }
     }
 
     void Move()
@@ -37,6 +61,18 @@ public class PlayerController : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    void ConsumibleUsed(ItemInfo consumible)
+    {
+        //hay que transformar el ItemIn
+        Consumible cons = consumible as Consumible;
+        //solo cambia la velocidad de movimiento si es un buff de este tipo
+        //if (cons.walkSpeed != 0)
+        //{
+        //    //llamar a la corrutina que cambia la velocidad de movimiento con los valores del consumible
+        //    StartCoroutine(MoveSpeedChangeCrt(cons.moveSpeedAmount, cons.duration));
+        //}
     }
 
     void Look()

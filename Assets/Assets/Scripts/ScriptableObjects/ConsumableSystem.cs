@@ -5,20 +5,19 @@ using UnityEngine.Events;
 
 public class ConsumableSystem : MonoBehaviour
 {
-    //Todos los consumibles que queramos llevar equipados
+    //todos los consumibles que queramos llevar equipados
     [SerializeField] private List<ConsumibleSlot> slots;
 
+    //callback para que cada vez que se use un consumible
     public static UnityAction<ItemInfo> onConsumibleUsed;
-
     private void Update()
     {
-        //Comprobar si se ha pulsado la tecla de alguno de los slots
-        for(int i = 0; i < slots.Count; i++)
+        //comprobar si se ha pulsado la tecla de alguno de los slots
+        for (int i = 0; i < slots.Count; i++)
         {
-            //Tambien comprueba si se tiene ese objeto en el inventario
-            if(Input.GetKeyDown(slots[i].key) && Inventory.Instance.HasItem(slots[i].consumible))
+            if (Input.GetKeyDown(slots[i].key) && Inventory.Instance.HasItem(slots[i].consumible))
             {
-                //Se usa lo que haya asignado a ese slot
+                //se usa lo que haya asignado a ese slot
                 slots[i].Use();
                 onConsumibleUsed?.Invoke(slots[i].consumible);
             }
@@ -26,6 +25,7 @@ public class ConsumableSystem : MonoBehaviour
     }
 }
 
+//Los corchetes es para que se vea en el editor
 [System.Serializable]
 public struct ConsumibleSlot
 {
@@ -39,7 +39,8 @@ public struct ConsumibleSlot
 
     public void Use()
     {
-        Debug.Log($"Used slot with item {consumible.Name}");
+        Debug.Log($"Used slot with item {consumible.name}");
+        //usar el objeto equipado en el slot
         consumible.Use();
     }
 }

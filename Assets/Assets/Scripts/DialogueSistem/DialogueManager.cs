@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager singleton;
@@ -26,6 +27,9 @@ public class DialogueManager : MonoBehaviour
     private Canvas canvas; //El componente Canvas que lleva el manager
     private bool inDialogue = false; //Sirve para controlar is hay un dialogo en curso
 
+    public UnityAction<Dialogue> onDialogueStart;
+    public UnityAction<Dialogue> onDialogueEnd;
+
     private void Start()
     {
         canvas = GetComponent<Canvas>();
@@ -45,6 +49,8 @@ public class DialogueManager : MonoBehaviour
         inDialogue = true;
         //Mostar la primera linea de dialogo
         ShowDialogueLine();
+        //Llamar al callback del dialogo iniciado
+        onDialogueStart?.Invoke(dialogue);
     }
 
     void ShowDialogueLine()
@@ -74,6 +80,8 @@ public class DialogueManager : MonoBehaviour
         canvas.enabled = false;
         //Marcar como que ya no hay ninun dialogo en curso
         inDialogue = false;
+        //Llamar al callback del dialogo terminado
+        onDialogueEnd?.Invoke(currentDialogue);
     }
 
     private void Update()
@@ -82,5 +90,13 @@ public class DialogueManager : MonoBehaviour
         {
             NextLine();
         }
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        //Eliminar lo que hay guardado en los callbacks
+
+        onDialogueEnd = null;
+        onDialogueStart = null;
     }
 }
