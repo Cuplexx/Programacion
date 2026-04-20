@@ -8,10 +8,28 @@ using UnityEngine.Events;
 //Si se va a guardar con Json, hay que marcar la estructura como serializable
 //Usamos una class para poder modificar su valor desde distintos scripts y que se guarde
 [System.Serializable]
-public struct SaveData
+public class SaveData
 {   
     //Lista de cofres ya abiertos
     public List<uint> openChestsIDs;
+    //Inventario: lista de informacion de los objetos que tengamos
+    public List<ItemSaveData> items;
+
+}
+
+//Como no se pueden serializar los diccionarios usamos esta estructura para guardar en una lista la infor de los objetos: nombre y cantidad
+[System.Serializable]
+public class ItemSaveData
+{
+    public string name;
+    public uint amount;
+
+    //Metodo constructor
+    public ItemSaveData(string _name, uint _amount)
+    {
+        name = _name;
+        amount = _amount;
+    }
 }
 
 public class SaveManager

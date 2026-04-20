@@ -22,20 +22,22 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        //Añadir funcion al callback de cargar info
+        SaveManager.OnLoadedData += LoadItems;
     }
 
     void Start()
     {
-        
+        SaveManager.OnSaveData += SaveItems;
     }
 
-    private void Update()
-    {
-        foreach(var item in items)
-        {
-            Debug.Log($"{item.Key} Quantity: {item.Value}");
-        }
-    }
+    //private void Update()
+    //{
+    //    foreach(var item in items)
+    //    {
+    //        Debug.Log($"{item.Key} Quantity: {item.Value}");
+    //    }
+    //}
 
     public void AddItem(ItemInfo item)
     {
@@ -63,6 +65,8 @@ public class Inventory : MonoBehaviour
         //Ejecutar el callback que se ha añadido un objeto, pasando su infomacion
         //El operador ? comprueba que haya algo en el callback para ejecutarlo.
         onAddedItem?.Invoke(item, items[item.Name]);
+        //Llamar a la funcion de guardar
+        SaveManager.Save();
     }
     public void RemoveItem(ItemInfo item)
     {
@@ -103,8 +107,29 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    //Devuelve true o false en funcion de si se tiene el objeto especificado o no
     public bool HasItem(ItemInfo itemToFind)
     {
         return items.ContainsKey(itemToFind.Name);
+    }
+
+    void SaveItems(SaveData saveData)
+    {
+        //Crear lista de objetos a guardar
+        List<ItemSaveData> itemsToSave = new List<ItemSaveData>();
+        //Por cada objeto que haya en el inventario, se crea un objeto de info
+        foreach (var item in items)
+        {
+            ItemSaveData itemData = new ItemSaveData(item.Key, item.Value);
+            itemsToSave.Add(itemData);
+        }
+        //Hay que guardar la lista creada en los datos de guardado
+        //La guardamos como una copia, no se iguala directamente
+        saveData.items = new List<ItemSaveData>(itemsToSave);
+    }
+
+    void LoadItems(SaveData loadedData)
+    {
+
     }
 }
