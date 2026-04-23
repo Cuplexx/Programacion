@@ -130,6 +130,16 @@ public class Inventory : MonoBehaviour
 
     void LoadItems(SaveData loadedData)
     {
+        //Por cada objeto guardado en la lista, creamos y añadimos uno nuevo al diccionario
+        foreach(var item in loadedData.items)
+        {
+            items.Add(item.name, item.amount);
+            Debug.Log($"Added { item.name} { item.amount}");
+            //Buscar el ScriptableObject con este nombre
+            ItemInfo itemInfo = ItemDataBase.FindItem(item.name);
+            //Llamar al callback de objeto añadido con el objeto cargado
+            onAddedItem?.Invoke(itemInfo, item.amount);
 
+        }
     }
 }
