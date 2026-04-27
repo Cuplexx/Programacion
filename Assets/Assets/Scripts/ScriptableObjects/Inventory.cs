@@ -19,6 +19,8 @@ public class Inventory : MonoBehaviour
     //Crear una instancia pbulica para este script
     public static Inventory Instance;
 
+    
+
     private void Awake()
     {
         Instance = this;

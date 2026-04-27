@@ -7,15 +7,21 @@ public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private ItemUI itemPrefab;
     [SerializeField] private Transform itemLayout; //todos los objetos se emparentan aqui
-    private List<ItemUI> items = new List<ItemUI>();
+    [SerializeField]private List<ItemUI> items = new List<ItemUI>();
 
-    //public ItemInfo item;
-    void Start()
+    //Hay que añadirlo en Awake para que de tiempo a añadirse al callback de items cargados
+
+    private void Awake()
     {
         //el += es meterlo en la caja
         //añadir la funcion CreateItem al callbacl del inventario cuando se añade un objeto
         //importante que la funcion reciba un ItemIndo como parametro o llora muy fuerte
         Inventory.Instance.onAddedItem += CreateItem;
+    }
+
+    void Start()
+    {
+        
         //Añadir la funcion DeleteItem al callback del inventario cuando se usa un objeto
         Inventory.Instance.onRemovedItem += DeleteItem;
     }
