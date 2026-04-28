@@ -24,12 +24,17 @@ public class PlayerSpawnManager : MonoBehaviour
         player = GameObject.FindWithTag("Player").transform;
         //Acceder a la escena en la que se encuentra actualmente
         Scene currentScene = SceneManager.GetActiveScene();
+        //Guardar el valor de la ID de spawn asignada en PersistentInfo
+        spawnID = PersistentInfo.Singleton.currentSpawnPointID;
         //Buscamos el punto con la ID guardada
         Transform spawnPoint = GetSpawnPoint(spawnID);
-        //Modificar posicion y rotacion del personaje
-        player.position = spawnPoint.position;
-        player.rotation = spawnPoint.rotation;
 
+        if (spawnPoint != null)
+        {
+            //Modificar posicion y rotacion del personaje
+            player.position = spawnPoint.position;
+            player.rotation = spawnPoint.rotation;
+        }
     }
 
     Transform GetSpawnPoint(string idToGet)

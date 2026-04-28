@@ -757,6 +757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneIndex: 0
   door: {fileID: 1024756159}
+  spawnPointID: 
 --- !u!1 &365640766
 GameObject:
   m_ObjectHideFlags: 0
@@ -1336,7 +1337,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneIndex: 1
-  door: {fileID: 0}
+  door: {fileID: 650112925}
+  spawnPointID: 
 --- !u!1 &673248050
 GameObject:
   m_ObjectHideFlags: 0
@@ -2821,7 +2823,7 @@ MonoBehaviour:
   spawnPoints:
   - id: 
     point: {fileID: 1132116020}
-  spawnID: 
+  spawnID: f
 --- !u!4 &1245556254
 Transform:
   m_ObjectHideFlags: 0
@@ -2831,7 +2833,7 @@ Transform:
   m_GameObject: {fileID: 1245556252}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.8492233, y: 2.5470796, z: -5.928228}
+  m_LocalPosition: {x: 1.8492233, y: 0.66, z: -5.928228}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

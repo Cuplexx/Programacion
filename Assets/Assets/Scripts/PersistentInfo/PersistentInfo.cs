@@ -6,7 +6,10 @@ public class PersistentInfo : MonoBehaviour
 {
     public static PersistentInfo Singleton;
 
+    //Lista con las ID de todos los cofres abiertos
     [SerializeField] private List<uint> openChests = new List<uint>();
+    //Guarda la ID del punto en el que se haya que spawnear en ese momento
+    public string currentSpawnPointID;
 
     private void Awake()
     {

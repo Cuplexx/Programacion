@@ -360,6 +360,7 @@ MonoBehaviour:
   itemPrefab: {fileID: 5479514213772547470, guid: e4d316b5f32bfe949a640f86476616d5,
     type: 3}
   itemLayout: {fileID: 1495012125}
+  items: []
 --- !u!4 &189174946
 Transform:
   m_ObjectHideFlags: 0
@@ -1352,7 +1353,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneIndex: 0
-  door: {fileID: 0}
+  door: {fileID: 972436476}
+  spawnPointID: Door_!
 --- !u!65 &972436478
 BoxCollider:
   m_ObjectHideFlags: 0
