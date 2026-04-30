@@ -49,5 +49,20 @@ public class PlayerSpawnManager : MonoBehaviour
         }
         return null;
     }
-    
+
+    private void OnApplicationQuit()
+    {
+        SaveManager.OnSaveData = null;
+
+        SaveManager.OnSaveData += SaveSceneInfo;
+        SaveManager.Save();
+
+        void SaveSceneInfo(SaveData saveData)
+        {
+            //Se actualiza la info de la escena guardada con el nombre de la escena actual y la posicion en la que se encuentra el player 
+            saveData.sceneInfo = new SceneInfo(SceneManager.GetActiveScene().name, player.position);
+        }
+
+    }
+
 }

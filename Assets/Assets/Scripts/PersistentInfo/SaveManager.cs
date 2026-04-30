@@ -15,6 +15,8 @@ public class SaveData
     //Inventario: lista de informacion de los objetos que tengamos
     public List<ItemSaveData> items;
 
+    public SceneInfo sceneInfo;
+
 }
 
 //Como no se pueden serializar los diccionarios usamos esta estructura para guardar en una lista la infor de los objetos: nombre y cantidad
@@ -30,6 +32,20 @@ public class ItemSaveData
         name = _name;
         amount = _amount;
     }
+}
+
+[System.Serializable]
+public struct SceneInfo
+{
+    public string name;
+    public Vector3 lastPosition;
+
+    public SceneInfo(string _name, Vector3 _lastPosition)
+    {
+        name = _name;
+        lastPosition = _lastPosition;
+    }
+
 }
 
 public class SaveManager
