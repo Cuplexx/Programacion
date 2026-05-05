@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private ItemUI itemPrefab;
     [SerializeField] private Transform itemLayout; //todos los objetos se emparentan aqui
     [SerializeField]private List<ItemUI> items = new List<ItemUI>();
+
+    [SerializeField] private TMP_Text itemNameTxt;
+    [SerializeField] private TMP_Text itemDescriptionTxt;
 
     //Hay que añadirlo en Awake para que de tiempo a añadirse al callback de items cargados
 
@@ -24,6 +27,12 @@ public class InventoryUI : MonoBehaviour
         
         //Añadir la funcion DeleteItem al callback del inventario cuando se usa un objeto
         Inventory.Instance.onRemovedItem += DeleteItem;
+    }
+
+    public void ShowItemInfo(ItemInfo item)
+    {
+        itemNameTxt.text = item.name;
+        itemDescriptionTxt.text = item.description;
     }
 
     public void CreateItem(ItemInfo itemInfo, uint amount)
@@ -49,7 +58,7 @@ public class InventoryUI : MonoBehaviour
             //crear una nueva imagen y emparentarla al Layout para que lo ponga en su posicion
             ItemUI newItem = Instantiate(itemPrefab, slot);
             //asignar al objeto de la UI su objeto al que hace referencia
-            newItem.SetItem(itemInfo);
+            newItem.SetItem(itemInfo, this);
             //Añadir el objeto a la lista
             items.Add(newItem);
         }

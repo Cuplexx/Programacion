@@ -4,29 +4,47 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using JetBrains.Annotations;
+using UnityEngine.EventSystems;
 
-public class ItemUI : MonoBehaviour
+public class ItemUI : MonoBehaviour, IPointerDownHandler
 {
-    //el objeto asociado a este objeto de la UI del inventario
+    //El objeto asociado a este objeto de la UI del inventario
     public ItemInfo itemInfo;
+
     [SerializeField] private Image icon;
     [SerializeField] private TMP_Text amountTxt;
+    [SerializeField] private Image frame;
 
-    //asignar el objeto asociado y actualizar los elementos de la UI
-    public void SetItem(ItemInfo info)
+    private InventoryUI inventoryUI;
+    //Asigna el objeto asociado y actualiza los elementos de la UI
+
+    public void OnPointerDown(PointerEventData evetData)
+    {
+        inventoryUI.ShowItemInfo(itemInfo);
+    }
+    public void SetItem(ItemInfo info, InventoryUI ui)
     {
         itemInfo = info;
-        icon.sprite = itemInfo.Icon;
+        //Guardar la referencia a la UI
+        inventoryUI = ui;
+        icon.sprite = itemInfo.itemIcon;
 
-        if (info.Stackable == false)
+        if (!info.stackable)
         {
             amountTxt.gameObject.SetActive(false);
         }
+        //Cambiar el color del marco segun la rareza del objeto
+        frame.color = ItemInfo.RarityToColor(info.rarity);
     }
 
-    //actualizar el texto con la cantidad de objetos disponibles
+    //Actualiza el texto con la cantidad de objetos disponibles
     public void UpdateAmount(uint amount)
     {
         amountTxt.text = amount.ToString();
     }
+}
+
+internal interface IPointerDownHandler
+{
+
 }

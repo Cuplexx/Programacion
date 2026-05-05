@@ -1,29 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/ItemsInfo")] //El / hace que se cree un submenu
+[CreateAssetMenu(menuName = "ScriptableObjects/ItemInfo")]      //Para poder crear el SO haciendo Click Drcho en Assets y que esté agrupado en "Scriptable Objects"
+
 public class ItemInfo : ScriptableObject
 {
-    public new string Name;
-    public bool Stackable;
-    public string description; //Si se puede apilar el objeto o no
-    public bool isDiscardable; //Si es de un solo uso
-    public Sprite Icon; //El icono que se ve dentro del inventario.+
-    public ItemType type; //Tipo de obejto que es
+    public string itemName = "defaultName";
 
-    //Para que todos los obejtos tengan una funcion por defecto de
-    //usar usamos la palabra clave VIRTUAL para que se pueda sobreescribir esta funcion desde las calses que heredan
-    public virtual void Use()
+    public bool stackable = true;
+
+    public Sprite itemIcon;
+
+    [TextArea]
+    public string description;
+
+    public Rarity rarity;
+
+    //Función de Usar para todos los objetos
+    public virtual void Use()    //Al marcar una función como virtual, se puede sobreescribir desde las clases heredadas
     {
-        if(type == ItemType.Consumible)
+        Debug.Log($"Used Standard Item: {itemName}");
+    }
+
+    public static Color RarityToColor(Rarity rarity)
+    {
+        switch (rarity)
         {
-            Inventory.Instance.RemoveItem(this);
+            case Rarity.Common:
+                return Color.gray;
+
+            case Rarity.Uncommon:
+                return Color.green;
+
+            case Rarity.Rare:
+                return Color.blue;
+
+            case Rarity.Epic:
+                return Color.magenta;
+
+            case Rarity.Legendary:
+                return Color.yellow;
+
+            default:
+                return Color.white;
         }
     }
 }
 
-public enum ItemType
+public enum Rarity
 {
-    Consumible, Equipable, Junk
+    Common, Uncommon, Rare, Epic, Legendary
 }

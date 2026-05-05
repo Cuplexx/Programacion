@@ -9,10 +9,9 @@ public struct SpawnPoint
     public string id;
     public Transform point;
 }
-
 public class PlayerSpawnManager : MonoBehaviour
 {
-    //Lista con todos los puntos de spawn de cada escena
+    //Lista con todos los puntos de Spawn de una única escena
     [SerializeField] private List<SpawnPoint> spawnPoints;
     [SerializeField] private string spawnID;
 
@@ -20,31 +19,37 @@ public class PlayerSpawnManager : MonoBehaviour
 
     private void Start()
     {
-        //Buscar y guardar al objeto del jugador
         player = GameObject.FindWithTag("Player").transform;
-        //Acceder a la escena en la que se encuentra actualmente
-        Scene currentScene = SceneManager.GetActiveScene();
-        //Guardar el valor de la ID de spawn asignada en PersistentInfo
+
+        if (PersistentInfo.Singleton.gameStarted)
+        {
+            player.position = PersistentInfo.Singleton.initialSpawnPosition;
+            PersistentInfo.Singleton.gameStarted = false;
+            return;
+        }
+
+        //Guardar el valor de la ID de Spawn asignada en Persistent info
         spawnID = PersistentInfo.Singleton.currentSpawnPointID;
-        //Buscamos el punto con la ID guardada
+
+        //Buscar el punto con la ID guardada
         Transform spawnPoint = GetSpawnPoint(spawnID);
 
         if (spawnPoint != null)
         {
-            //Modificar posicion y rotacion del personaje
+            //Modificar posicion y rotación del player
             player.position = spawnPoint.position;
             player.rotation = spawnPoint.rotation;
         }
+
     }
 
     Transform GetSpawnPoint(string idToGet)
     {
-        for(int i = 0; i < spawnPoints.Count; i++)
+        for (int i = 0; i < spawnPoints.Count; i++)
         {
-            if(spawnPoints[i].id == idToGet)
+            if (spawnPoints[i].id == idToGet)
             {
                 return spawnPoints[i].point;
-
             }
         }
         return null;
@@ -52,17 +57,18 @@ public class PlayerSpawnManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        SaveManager.OnSaveData = null;
+        //Quitar todas las funciones del callback de guardado para que de tiempo a guardar la info de la escena
+        SaveManager.OnDataSaved = null;
 
-        SaveManager.OnSaveData += SaveSceneInfo;
+        //Añadir al callback la función de guardar info de la escena
+        SaveManager.OnDataSaved += SaveSceneInfo;
+
         SaveManager.Save();
 
         void SaveSceneInfo(SaveData saveData)
         {
-            //Se actualiza la info de la escena guardada con el nombre de la escena actual y la posicion en la que se encuentra el player 
-            saveData.sceneInfo = new SceneInfo(SceneManager.GetActiveScene().name, player.position);
+            //Se actualiza la escena guardada con el nombre de la escena actual y la posición en la que se encuentre el player
+            saveData.sceneSaveData = new SceneSaveData(SceneManager.GetActiveScene().name, player.position);
         }
-
     }
-
 }

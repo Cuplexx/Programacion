@@ -9,18 +9,21 @@ public class MainMenuManager : MonoBehaviour
 
     void Awake()
     {
+        SaveManager.OnDataLoaded += LoadSceneInfo;
+
         void LoadSceneInfo(SaveData saveData)
         {
-            //Añadir funcion al callback de cargar datos
-            SaveManager.OnLoadedData += LoadSceneInfo;
-
-            sceneToLoad = saveData.sceneInfo.name;
-            lastPlayerPosition = saveData.sceneInfo.lastPosition;
+            sceneToLoad = saveData.sceneSaveData.name;
+            lastPlayerPosition = saveData.sceneSaveData.lastPosition;
         }
     }
 
     public void Play()
     {
+        //Guardar la última posición como posición de spawn inicial
+        PersistentInfo.Singleton.initialSpawnPosition = lastPlayerPosition;
+
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
     }
+
 }

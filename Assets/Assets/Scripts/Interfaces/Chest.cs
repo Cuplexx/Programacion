@@ -32,7 +32,7 @@ public class Chest : MonoBehaviour, Interactable
         isOpen = true;
         GetComponent<Renderer>().material = openMat;
         //Al abrirse, el cofre se añade a la lista de cofres ya abiertos
-        PersistentInfo.Singleton.AddOpenChest(chestID);
+        PersistentInfo.Singleton.AddOpenChests(chestID);
         if(itemToAdd != null)
         {
             Inventory.Instance.AddItem(itemToAdd);

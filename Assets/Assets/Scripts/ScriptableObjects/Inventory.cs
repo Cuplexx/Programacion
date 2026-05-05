@@ -25,12 +25,12 @@ public class Inventory : MonoBehaviour
     {
         Instance = this;
         //Añadir funcion al callback de cargar info
-        SaveManager.OnLoadedData += LoadItems;
+        SaveManager.OnDataLoaded += LoadItems;
     }
 
     void Start()
     {
-        SaveManager.OnSaveData += SaveItems;
+        SaveManager.OnDataSaved += SaveItems;
     }
 
     //private void Update()
@@ -44,36 +44,36 @@ public class Inventory : MonoBehaviour
     public void AddItem(ItemInfo item)
     {
         //Si el objeto no está en el inventario, lo añade y ya
-        if(items.ContainsKey(item.Name) == false)
+        if(items.ContainsKey(item.name) == false)
         {
-            items.Add(item.Name, 1);
+            items.Add(item.name, 1);
         }
         //si el objeto ya esta en el inventario...
         else
         {
             //Si el objeto se puede stackear, tiene que añadir 1 a la cantidad que tengamos.
-            if(item.Stackable == true)
+            if(item.stackable == true)
             {
                 //Accedemos al valor a través del nombre del objetos
                 //Como el nombre es la Key, se usa para acceder a cada objeto por separado
-                items[item.Name] += 1;
+                items[item.name] += 1;
             }
             //Si el objeto NO se puede stackear, lo añade de nuevo al diccionario.
             else
             {
-                items.Add(ItemInfo.Name, 1);
+                items.Add(ItemInfo.name, 1);
             }
         }
         //Ejecutar el callback que se ha añadido un objeto, pasando su infomacion
         //El operador ? comprueba que haya algo en el callback para ejecutarlo.
-        onAddedItem?.Invoke(item, items[item.Name]);
+        onAddedItem?.Invoke(item, items[item.name]);
         //Llamar a la funcion de guardar
         SaveManager.Save();
     }
     public void RemoveItem(ItemInfo item)
     {
         //Si el objeto no estuviera en el inventario no hace nada.
-        if (items.ContainsKey(item.Name) == false)
+        if (items.ContainsKey(item.name) == false)
         {
             return;
         }
@@ -82,14 +82,14 @@ public class Inventory : MonoBehaviour
         //Si el objeto está en el inventario, hay que quitarlo
         
         //Si el objeto se puede stackear, se resta 1 a la cantidad que tengamos
-        if (item.Stackable == true)
+        if (item.stackable == true)
         {
             //Accedemos al valor a través del nombre del objetos
             //Como el nombre es la Key, se usa para acceder a cada objeto por separado
-            items[item.Name] -= 1;
+            items[item.name] -= 1;
             //En cuanto se gasta hay que comprobar si aun nos quedan objetos de ese tipo
             //si no quedan se elimina del inventario
-            if (items[item.Name] <= 0)
+            if (items[item.name] <= 0)
             {
                 removeItem = true;
             }
@@ -99,20 +99,20 @@ public class Inventory : MonoBehaviour
         {
             removeItem = true;
             //Forzar a que la cantidad del objeto sea 0
-            items[item.Name] = 0;
+            items[item.name] = 0;
         }
-        onRemovedItem?.Invoke(item, items[item.Name]);
+        onRemovedItem?.Invoke(item, items[item.name]);
         //Se comprueba si hay que eliminar el obejto del inventario o no
         if(removeItem == true)
         {
-            items.Remove(item.Name);
+            items.Remove(item.name);
         }
     }
 
     //Devuelve true o false en funcion de si se tiene el objeto especificado o no
     public bool HasItem(ItemInfo itemToFind)
     {
-        return items.ContainsKey(itemToFind.Name);
+        return items.ContainsKey(itemToFind.name);
     }
 
     void SaveItems(SaveData saveData)

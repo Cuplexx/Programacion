@@ -19,7 +19,7 @@ public class ItemDataBase
         //Por cada objeto cargado, hay que añadirlo al diccionario junto a su nombre para indentificarlo
         foreach (ItemInfo foundItem in foundItems)
         {
-            allItems.Add(foundItem.Name, foundItem);
+            allItems.Add(foundItem.name, foundItem);
         }
     }
 
